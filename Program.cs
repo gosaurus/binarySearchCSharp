@@ -14,8 +14,12 @@
 
         public static bool checkMatch(string animalAtMidIndex, string userword)
         {
-            //return FALSE if it's a match to exit while loop
-            return !(animalAtMidIndex == userword);
+            if (animalAtMidIndex == userword)
+            {
+                Console.WriteLine($"Found search. Word {animalAtMidIndex} is current bisect point");
+                return false;
+            }
+            return true;
         }
 
         public static void Main ()
@@ -31,12 +35,12 @@
             bool continueSearch = true;
             while (continueSearch) 
             {
-                //Get midpoint. 
+                //Get bisect point. 
                 int midIndex = animals.Count % 2 == 0? animals.Count/2 : (animals.Count-1)/2;
                 Console.WriteLine($"Animal at midindex = {animals[midIndex]}, midIndex value = {midIndex}");
                 continueSearch = checkMatch(animals[midIndex], userWord);
 
-                //Dealing with endgame 
+                //Dealing with endgame  // can this be simplified???
                 if (animals.Count <= 2) 
                 {
                     Console.WriteLine($"Checking at index 0 {animals[0]} and index 1 {animals[1]} against {userWord}");
@@ -50,7 +54,7 @@
                     //remove first half of list
                     Console.WriteLine($"1. Confirming Count of animals list before removing range to left of mid Index= {animals.Count}");
                     Console.WriteLine($"2.Value of userword char greater than midIndex char: {userWord[0]} > {animals[midIndex][0]}");
-                    if (animals.Count % 2 == 0) // if EVEN removerange(0, elements to remove)
+                    if (animals.Count % 2 == 0) 
                     {
                         Console.WriteLine($"Count is Even. Removing from 0 {animals[0]} to midIndex animal {animals[midIndex]}");
                         animals.RemoveRange(0, midIndex + 1);
@@ -70,18 +74,14 @@
                     foreach (var animal in animals)
                     {
                         if (userWord[0] == animal[0])
-                        {
                             sameLetterAnimals.Add(animal);
-                        }
                     }
                     
                     //check each animal against userword
                     foreach (var animal in sameLetterAnimals)
                     {
                         if (userWord == animal)
-                        {
                             continueSearch = false;
-                        }
                     }
                 }
                 
@@ -89,10 +89,9 @@
                 {
                     Console.WriteLine($"Confirming {userWord[0]} is < {animals[midIndex][0]}");
                     Console.WriteLine($"Removing animals greater and including midIndex {animals[midIndex]} to end {animals.Count-1}");
-                    animals.RemoveRange(midIndex, animals.Count- midIndex);
+                    animals.RemoveRange(midIndex, animals.Count - midIndex);
                     Console.WriteLine($"New Animals count = {animals.Count}");
                 }
-                // continueSearch = animals.Count == 1 ? continueSearch = false : continueSearch = true;
             }
 
         }
